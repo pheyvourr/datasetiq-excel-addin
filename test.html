@@ -126,7 +126,7 @@
 
     <script>
         const BASE_URL = 'https://plugins.datasetiq.com';
-        const API_URL = 'https://www.datasetiq.com/api/public/sheets/series';
+        const API_URL = 'https://www.datasetiq.com/api/public/series';
         let testResults = {};
 
         async function testEndpoint(name, path) {
@@ -164,14 +164,28 @@
             resultDiv.textContent = 'Testing API without authentication...';
 
             try {
-                const response = await fetch(`${API_URL}/FRED-GDP?mode=latest`);
+                // Test with a real series ID from search results
+                const response = await fetch(`${API_URL}/wb%2FNE.EXP.GNFS.ZS%2FUSA/data?limit=3`);
                 const status = response.status;
                 
-                // API requires authentication, so 401/403/404 are expected
-                if (status === 401 || status === 403 || status === 404) {
-                    testResults['api'] = true;
-                    resultDiv.className = 'result success';
-                    resultDiv.textContent = `✅ API endpoint exists and requires authentication (HTTP ${status})\nThis is expected behavior. Use "Test with API Key" to verify full functionality.`;
+                // Unauthenticated requests get limited data (100 observations)
+                if (status === 200) {
+                    const data = await response.json();
+                    if (data.data && Array.isArray(data.data)) {
+                        testResults['api'] = true;
+                        resultDiv.className = 'result success';
+                        resultDiv.textContent = `✅ API endpoint working!\nSeries: ${data.seriesId}\nData points: ${data.data.length}\nLatest: ${JSON.stringify(data.data[data.data.length - 1])}\nHas more: ${data.hasMore}`;
+                        updateOverallStatus();
+                        return;
+                    }
+                }
+                
+                // 404 means series not found or wrong endpoint
+                if (status === 404) {
+                    const errorData = await response.json().catch(() => null);
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ HTTP 404: Series not found or incorrect endpoint\nURL: ${response.url}\nError: ${errorData ? JSON.stringify(errorData) : 'Unknown'}`;
+                    testResults['api'] = false;
                     updateOverallStatus();
                     return;
                 }
@@ -211,12 +225,14 @@
             resultDiv.textContent = 'Testing API with authentication...';
 
             try {
-                const response = await fetch(`${API_URL}/FRED-GDP?mode=latest`, {
+                // Test data endpoint with auth (gets 1000 observations limit)
+                const response = await fetch(`${API_URL}/wb%2FNE.EXP.GNFS.ZS%2FUSA/data?limit=5`, {
                     headers: { 'Authorization': `Bearer ${key}` }
                 });
                 if (!response.ok) {
+                    const errorData = await response.json().catch(() => null);
                     resultDiv.className = 'result error';
-                    resultDiv.textContent = `❌ HTTP ${response.status}: ${response.statusText}`;
+                    resultDiv.textContent = `❌ HTTP ${response.status}: ${response.statusText}\n${errorData ? JSON.stringify(errorData, null, 2) : ''}`;
                     return;
                 }
                 const data = await response.json();
@@ -224,9 +240,12 @@
                 if (data.error) {
                     resultDiv.className = 'result error';
                     resultDiv.textContent = `❌ ${data.error.message}\nCode: ${data.error.code}`;
-                } else {
+                } else if (data.data && Array.isArray(data.data)) {
                     resultDiv.className = 'result success';
-                    resultDiv.textContent = `✅ Authenticated successfully!\nLatest GDP: ${data.scalar}\nFull response:\n${JSON.stringify(data, null, 2)}`;
+                    resultDiv.textContent = `✅ Authenticated successfully!\nSeries: ${data.seriesId}\nData points: ${data.data.length}\nSample data:\n${JSON.stringify(data.data.slice(0, 3), null, 2)}\nHas more: ${data.hasMore}`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ Unexpected response format:\n${JSON.stringify(data, null, 2)}`;
                 }
             } catch (error) {
                 resultDiv.className = 'result error';
