@@ -317,14 +317,14 @@
                 }
                 const data = await response.json();
                 
-                testResults['search'] = (status === 200 || status === 208) && Array.isArray(data);
+                testResults['search'] = (status === 200 || status === 208) && data.results && Array.isArray(data.results);
                 
                 if (testResults['search']) {
                     resultDiv.className = 'result success';
-                    resultDiv.textContent = `✅ Search working!\nFound ${data.length} results\nSample: ${JSON.stringify(data.slice(0, 3), null, 2)}`;
+                    resultDiv.textContent = `✅ Search working!\nFound ${data.count} total results (showing ${data.results.length})\nSample: ${JSON.stringify(data.results.slice(0, 2), null, 2)}`;
                 } else {
                     resultDiv.className = 'result error';
-                    resultDiv.textContent = `❌ Search failed\nStatus: ${response.status}`;
+                    resultDiv.textContent = `❌ Search failed\nStatus: ${status}\nData structure: ${JSON.stringify(Object.keys(data), null, 2)}`;
                 }
             } catch (error) {
                 testResults['search'] = false;
@@ -352,14 +352,14 @@
                 }
                 const data = await response.json();
                 
-                testResults['search-source'] = (status === 200 || status === 208) && Array.isArray(data);
+                testResults['search-source'] = (status === 200 || status === 208) && data.results && Array.isArray(data.results);
                 
                 if (testResults['search-source']) {
                     resultDiv.className = 'result success';
-                    resultDiv.textContent = `✅ Source filter working!\nFound ${data.length} FRED results\nSample: ${JSON.stringify(data.slice(0, 2), null, 2)}`;
+                    resultDiv.textContent = `✅ Source filter working!\nFound ${data.count} total FRED results (showing ${data.results.length})\nSample: ${JSON.stringify(data.results.slice(0, 2), null, 2)}`;
                 } else {
                     resultDiv.className = 'result error';
-                    resultDiv.textContent = `❌ Source filter failed\nStatus: ${response.status}`;
+                    resultDiv.textContent = `❌ Source filter failed\nStatus: ${status}`;
                 }
             } catch (error) {
                 testResults['search-source'] = false;
@@ -387,14 +387,14 @@
                 }
                 const data = await response.json();
                 
-                testResults[`browse-${source}`] = (status === 200 || status === 208) && Array.isArray(data);
+                testResults[`browse-${source}`] = (status === 200 || status === 208) && data.results && Array.isArray(data.results);
                 
                 if (testResults[`browse-${source}`]) {
                     resultDiv.className = 'result success';
-                    resultDiv.textContent = `✅ Browse ${source} working!\nFound ${data.length} series\nSamples:\n${JSON.stringify(data.slice(0, 3).map(s => ({id: s.id, title: s.title})), null, 2)}`;
+                    resultDiv.textContent = `✅ Browse ${source} working!\nFound ${data.count} total series (showing ${data.results.length})\nSamples:\n${JSON.stringify(data.results.slice(0, 3).map(s => ({id: s.id, title: s.title})), null, 2)}`;
                 } else {
                     resultDiv.className = 'result error';
-                    resultDiv.textContent = `❌ Browse failed\nStatus: ${response.status}`;
+                    resultDiv.textContent = `❌ Browse failed\nStatus: ${status}\nData structure: ${JSON.stringify(Object.keys(data), null, 2)}`;
                 }
             } catch (error) {
                 testResults[`browse-${source}`] = false;

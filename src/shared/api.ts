@@ -229,8 +229,8 @@ export async function searchSeries(apiKey: string | null, query: string, source?
     return [];
   }
   const body = await response.json();
-  if (!Array.isArray(body)) return [];
-  return body.map((item: any) => ({
+  if (!body.results || !Array.isArray(body.results)) return [];
+  return body.results.map((item: any) => ({
     id: item.id,
     title: item.title,
     frequency: item.frequency,
@@ -248,8 +248,8 @@ export async function browseBySource(apiKey: string | null, source: string): Pro
     return [];
   }
   const body = await response.json();
-  if (!Array.isArray(body)) return [];
-  return body.map((item: any) => ({
+  if (!body.results || !Array.isArray(body.results)) return [];
+  return body.results.map((item: any) => ({
     id: item.id,
     title: item.title,
     frequency: item.frequency,
