@@ -951,7 +951,7 @@ const App: React.FC = () => {
                 
                 {/* Ingestion pending notice */}
                 {previewData.isPending && (
-                  <div style={{marginBottom: '12px', padding: '10px', background: '#dbeafe', borderRadius: '6px', border: '1px solid '#3b82f6'}}>
+                  <div style={{marginBottom: '12px', padding: '10px', background: '#dbeafe', borderRadius: '6px', border: '1px solid #3b82f6'}}>
                     <strong style={{color: '#1e3a8a', display: 'block', marginBottom: '4px'}}>⏳ Ingestion In Progress</strong>
                     <p style={{fontSize: '12px', color: '#1e40af', margin: 0}}>
                       {previewData.statusMessage || 'Full dataset is being fetched. This usually takes 1-2 minutes. Please check back shortly.'}
