@@ -36,7 +36,16 @@ async function DSIQ(seriesId: string, frequency?: string, startDate?: any): Prom
     throw new Error(error);
   }
   const data = response?.data ?? [];
-  return buildArrayResult(data);
+  const result = buildArrayResult(data);
+  
+  // Add upgrade message for free users if data is truncated at 100 observations
+  if (!apiKey && data.length >= 100) {
+    result.push(['', '']);
+    result.push(['⚠️ Free tier limited to 100 most recent observations', '']);
+    result.push(['Upgrade for full access: datasetiq.com/pricing', '']);
+  }
+  
+  return result;
 }
 
 async function DSIQ_LATEST(seriesId: string): Promise<number | string> {

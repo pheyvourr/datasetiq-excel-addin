@@ -26,7 +26,7 @@ export interface SeriesResponse {
 
 // Note: No public user profile endpoint available in production API
 
-export const PAID_PLANS = ['premium', 'pro', 'enterprise', 'Premium', 'Pro', 'Enterprise'];
+export const PAID_PLANS = ['starter', 'premium', 'pro', 'team', 'enterprise', 'Starter', 'Premium', 'Pro', 'Team', 'Enterprise'];
 
 export function isPaidPlan(plan?: string): boolean {
   return plan ? PAID_PLANS.includes(plan) : false;
@@ -54,14 +54,19 @@ export interface SearchResult {
 export const SOURCES = [
   { id: 'FRED', name: 'FRED (Federal Reserve)' },
   { id: 'BLS', name: 'BLS (Bureau of Labor Statistics)' },
-  { id: 'OECD', name: 'OECD' },
-  { id: 'EUROSTAT', name: 'Eurostat' },
-  { id: 'IMF', name: 'IMF' },
-  { id: 'WORLDBANK', name: 'World Bank' },
-  { id: 'ECB', name: 'ECB (European Central Bank)' },
-  { id: 'BOE', name: 'Bank of England' },
+  { id: 'BEA', name: 'BEA (Bureau of Economic Analysis)' },
   { id: 'CENSUS', name: 'US Census Bureau' },
   { id: 'EIA', name: 'EIA (Energy Information)' },
+  { id: 'IMF', name: 'IMF (International Monetary Fund)' },
+  { id: 'OECD', name: 'OECD' },
+  { id: 'WORLDBANK', name: 'World Bank' },
+  { id: 'ECB', name: 'ECB (European Central Bank)' },
+  { id: 'EUROSTAT', name: 'Eurostat' },
+  { id: 'BOE', name: 'Bank of England' },
+  { id: 'ONS', name: 'ONS (UK Office for National Statistics)' },
+  { id: 'STATCAN', name: 'StatCan (Statistics Canada)' },
+  { id: 'RBA', name: 'RBA (Reserve Bank of Australia)' },
+  { id: 'BOJ', name: 'BOJ (Bank of Japan)' },
 ];
 
 export interface FetchOptions {
@@ -140,7 +145,7 @@ export async function fetchSeries(options: FetchOptions): Promise<FetchResult> {
     // Data endpoint parameters
     if (start) url.searchParams.set('start', start);
     if (date) url.searchParams.set('end', date);
-    // Set higher limit for authenticated requests
+    // Free users: 100 observations, Paid users: 1000 observations
     url.searchParams.set('limit', apiKey ? '1000' : '100');
   }
 
