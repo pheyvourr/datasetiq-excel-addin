@@ -455,23 +455,25 @@
             resultDiv.textContent = 'Testing preview data fetch...';
 
             try {
-                // Fetch both latest value and metadata
-                const [latestRes, metaRes] = await Promise.all([
-                    fetch(`${API_URL}/FRED-GDP?mode=latest`),
-                    fetch(`${API_URL}/FRED-GDP?mode=meta`)
+                // Fetch both latest value and metadata using real series
+                const seriesId = 'wb%2FNE.EXP.GNFS.ZS%2FUSA';
+                const [dataRes, metaRes] = await Promise.all([
+                    fetch(`${API_URL}/${seriesId}/data?limit=1`),
+                    fetch(`${API_URL}/${seriesId}`)
                 ]);
 
-                const latestData = await latestRes.json();
+                const dataData = await dataRes.json();
                 const metaData = await metaRes.json();
 
-                testResults['preview'] = latestRes.status === 200 && metaRes.status === 200;
+                testResults['preview'] = dataRes.status === 200 && metaRes.status === 200;
 
                 if (testResults['preview']) {
+                    const latestValue = dataData.data && dataData.data.length > 0 ? dataData.data[0].value : 'N/A';
                     resultDiv.className = 'result success';
-                    resultDiv.textContent = `✅ Preview data working!\n\nLatest Value: ${latestData.scalar || 'N/A'}\n\nMetadata:\n${JSON.stringify(metaData.meta, null, 2)}`;
+                    resultDiv.textContent = `✅ Preview data working!\n\nSeries: ${metaData.dataset.title}\nLatest Value: ${latestValue}\nProvider: ${metaData.dataset.provider}\nFrequency: ${metaData.dataset.frequency}\nObservations: ${metaData.dataset.observationCount}`;
                 } else {
                     resultDiv.className = 'result error';
-                    resultDiv.textContent = `❌ Preview failed\nLatest status: ${latestRes.status}\nMeta status: ${metaRes.status}`;
+                    resultDiv.textContent = `❌ Preview failed\nData status: ${dataRes.status}\nMeta status: ${metaRes.status}`;
                 }
             } catch (error) {
                 testResults['preview'] = false;

@@ -813,14 +813,61 @@ const App: React.FC = () => {
       )}
 
       <section className="card">
-        <div className="card-title">Usage</div>
-        <ul className="muted">
-          <li>Array: =DSIQ("FRED-GDP", [frequency], [start_date])</li>
-          <li>Latest: =DSIQ_LATEST("FRED-GDP")</li>
-          <li>Value: =DSIQ_VALUE("FRED-GDP", "2024-01-01")</li>
-          <li>YoY: =DSIQ_YOY("FRED-GDP")</li>
-          <li>Meta: =DSIQ_META("FRED-GDP", "title")</li>
-        </ul>
+        <div className="card-title">📖 Formula Reference</div>
+        <div style={{fontSize: '13px', lineHeight: '1.6'}}>
+          
+          <div style={{marginBottom: '16px'}}>
+            <strong style={{color: '#1f2937'}}>DSIQ(series_id, [frequency], [start_date])</strong>
+            <div className="muted" style={{marginTop: '4px'}}>Returns time series data as array (spills into cells below)</div>
+            <code style={{display: 'block', marginTop: '6px', padding: '6px', background: '#f3f4f6', borderRadius: '4px', fontSize: '12px'}}>
+              =DSIQ("wb/NE.EXP.GNFS.ZS/USA")<br/>
+              =DSIQ("fred/GDP", "Q", "2020-01-01")
+            </code>
+          </div>
+          
+          <div style={{marginBottom: '16px'}}>
+            <strong style={{color: '#1f2937'}}>DSIQ_LATEST(series_id)</strong>
+            <div className="muted" style={{marginTop: '4px'}}>Returns most recent value (single cell)</div>
+            <code style={{display: 'block', marginTop: '6px', padding: '6px', background: '#f3f4f6', borderRadius: '4px', fontSize: '12px'}}>
+              =DSIQ_LATEST("wb/NE.EXP.GNFS.ZS/USA")
+            </code>
+          </div>
+          
+          <div style={{marginBottom: '16px'}}>
+            <strong style={{color: '#1f2937'}}>DSIQ_VALUE(series_id, date)</strong>
+            <div className="muted" style={{marginTop: '4px'}}>Returns value at specific date</div>
+            <code style={{display: 'block', marginTop: '6px', padding: '6px', background: '#f3f4f6', borderRadius: '4px', fontSize: '12px'}}>
+              =DSIQ_VALUE("fred/GDP", "2024-01-01")<br/>
+              =DSIQ_VALUE("bls/CUUR0000SA0", A2)
+            </code>
+          </div>
+          
+          <div style={{marginBottom: '16px'}}>
+            <strong style={{color: '#1f2937'}}>DSIQ_YOY(series_id)</strong>
+            <div className="muted" style={{marginTop: '4px'}}>Returns year-over-year % change</div>
+            <code style={{display: 'block', marginTop: '6px', padding: '6px', background: '#f3f4f6', borderRadius: '4px', fontSize: '12px'}}>
+              =DSIQ_YOY("fred/GDP")
+            </code>
+          </div>
+          
+          <div style={{marginBottom: '16px'}}>
+            <strong style={{color: '#1f2937'}}>DSIQ_META(series_id, field)</strong>
+            <div className="muted" style={{marginTop: '4px'}}>Returns metadata field (title, frequency, units, etc.)</div>
+            <code style={{display: 'block', marginTop: '6px', padding: '6px', background: '#f3f4f6', borderRadius: '4px', fontSize: '12px'}}>
+              =DSIQ_META("wb/NE.EXP.GNFS.ZS/USA", "title")<br/>
+              =DSIQ_META("fred/GDP", "frequency")<br/>
+              =DSIQ_META("bls/CUUR0000SA0", "units")
+            </code>
+          </div>
+          
+          <div className="muted" style={{marginTop: '12px', padding: '8px', background: '#eff6ff', borderRadius: '6px', fontSize: '12px'}}>
+            <strong>💡 Tips:</strong><br/>
+            • Use Search tab to find series IDs<br/>
+            • Browse by Source for data discovery<br/>
+            • Favorites/Recent for quick access<br/>
+            • DSIQ() spills automatically in Excel 365
+          </div>
+        </div>
       </section>
       
       {previewSeries && (
