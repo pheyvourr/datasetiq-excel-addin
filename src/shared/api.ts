@@ -263,7 +263,7 @@ export async function searchSeries(apiKey: string | null, query: string, source?
   const headers: Record<string, string> = {};
   if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
   let url = `${BASE_URL}${SEARCH_PATH}?q=${encodeURIComponent(query)}`;
-  if (source) url += `&source=${encodeURIComponent(source)}`;
+  if (source) url += `&q=${encodeURIComponent(source)}`; // keep query but also bias by source
   const response = await fetch(url, { headers });
   if (!response.ok) {
     return [];
@@ -282,20 +282,40 @@ export async function searchSeries(apiKey: string | null, query: string, source?
 export async function browseBySource(apiKey: string | null, source: string): Promise<SearchResult[]> {
   const headers: Record<string, string> = {};
   if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
-  const url = `${BASE_URL}${SEARCH_PATH}?source=${encodeURIComponent(source)}&limit=50`;
+  const normalizedSource = normalizeSourceProvider(source);
+  const url = `${BASE_URL}${SEARCH_PATH}?q=${encodeURIComponent(normalizedSource)}&limit=50`;
   const response = await fetch(url, { headers });
   if (!response.ok) {
     return [];
   }
   const body = await response.json();
   if (!body.results || !Array.isArray(body.results)) return [];
-  return body.results.map((item: any) => ({
+  const filtered = body.results.filter((item: any) => {
+    const provider = (item.provider || item.source || '').toString().toUpperCase();
+    return (
+      provider === normalizedSource.toUpperCase() ||
+      provider.includes(normalizedSource.toUpperCase()) ||
+      normalizedSource.toUpperCase().includes(provider)
+    );
+  });
+  const resultsToMap = filtered.length ? filtered : body.results;
+  return resultsToMap.map((item: any) => ({
     id: item.id,
     title: item.title,
     frequency: item.frequency,
     units: item.units,
     source: item.source,
   }));
+}
+
+function normalizeSourceProvider(source: string): string {
+  const upper = source.trim().toUpperCase();
+  const alias: Record<string, string> = {
+    WORLDBANK: 'WB',
+    WORLD_BANK: 'WB',
+    WORLD_BANK_GROUP: 'WB',
+  };
+  return alias[upper] || upper;
 }
 
 export function mapError(code: ErrorCode | undefined, status: number, fallback?: string): string {
