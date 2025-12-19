@@ -81,11 +81,10 @@ const App: React.FC = () => {
       setMessage(error || 'Invalid API key. Please re-enter your API key.');
       return;
     }
-    // Note: Cannot determine plan level from API, defaulting to free
-    // Premium features would require authentication through web app
-    setIsPaid(false);
+    // Valid API key - unlock premium features
+    setIsPaid(true);
     setView('connected');
-    setMessage('Connected');
+    setMessage('✅ Connected - Premium features unlocked');
   }
 
   async function handleSave() {
@@ -251,10 +250,11 @@ const App: React.FC = () => {
   }
   
   function checkPremiumAccess(feature: string): boolean {
-    // Note: Premium plan detection not available from public API
-    // All users have access to basic features only
-    setMessage(getUpgradeMessage(feature));
-    return false; // Premium features disabled until authentication is added
+    if (!isPaid) {
+      setMessage(getUpgradeMessage(feature));
+      return false;
+    }
+    return true; // Paid users have access to all premium features
   }
   
   function openBuilder() {
