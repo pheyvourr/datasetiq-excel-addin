@@ -12,7 +12,7 @@
   <Description DefaultValue="Pull DataSetIQ series directly into Excel with custom functions." />
   <IconUrl DefaultValue="https://plugins.datasetiq.com/assets/icon-32.png" />
   <HighResolutionIconUrl DefaultValue="https://plugins.datasetiq.com/assets/icon-64.png" />
-  <SupportUrl DefaultValue="https://datasetiq.com/support" />
+  <SupportUrl DefaultValue="https://datasetiq.com/plugins/support" />
   <AppDomains>
     <AppDomain>https://datasetiq.com</AppDomain>
     <AppDomain>https://plugins.datasetiq.com</AppDomain>
