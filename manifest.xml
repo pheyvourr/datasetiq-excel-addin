@@ -2,8 +2,8 @@
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
-  xmlns:ov="http://schemas.microsoft.com/office/mailappversionoverrides/1.1"
-  xsi:type="Workbook">
+  xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides/1.1"
+  xsi:type="TaskPaneApp">
   <Id>b9e5b806-7fbb-4e7b-9cc3-9b61c24ce60c</Id>
   <Version>1.0.0.0</Version>
   <ProviderName>DataSetIQ</ProviderName>
@@ -33,7 +33,7 @@
   </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
 
-  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
     <Hosts>
       <Host xsi:type="Workbook">
         <Runtimes>
